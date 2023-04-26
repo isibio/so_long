@@ -14,6 +14,7 @@
 # define SO_LONG_H
 
 # define WALL			'1'
+# define GROUND			'0'
 # define PLAYER			'P'
 # define COLLECTIBLE	'C'
 # define EXIT			'E'
@@ -41,8 +42,11 @@ int		parsing_map_square(char **map);
 int		parsing_map_composition(char **map);
 int		parsing_map_exit_reachable(char **map);
 
-char	**map_virus(char **map, char to_keep, char to_replace);
-
+int		map_len(char **map);
+int		map_clone(char **dest, char **src);
+int		get_coordinates(char orientation, char **map, char c, int min_len);
+char	**map_virus(char **map, char to_keep, char to_replace, char virus);
+char 	**map_virus_draw_around(char **map, int x, int y, char to_keep, char virus);
 
 /* ===| Utils |=== */
 int		count_char(char **str, char c);
