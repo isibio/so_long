@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include "libft_bonus.h"
 # include "ft_printf.h"
+# include "ft_fprintf.h"
 # include "get_next_line.h"
 
 int		ft_isalpha(int n);

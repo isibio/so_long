@@ -41,25 +41,3 @@ int	check_only_char(char *str, char c)
 	}
 	return (0);
 }
-
-int	count_char(char **str, char c)
-{
-	int	nb_occurrence;
-	int	i;
-	int	j;
-
-	nb_occurrence = 0;
-	i = 0;
-	while (str[i])
-	{
-		j = 0;
-		while (str[i][j])
-		{
-			if (str[i][j] == c)
-				nb_occurrence++;
-			j++;
-		}
-		i++;
-	}
-	return (nb_occurrence);
-}

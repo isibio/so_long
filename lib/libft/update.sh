@@ -133,6 +133,39 @@
 	#  from ${get_next_line_path}/includes/ -> ${get_next_line_path_clone_includes}
 	cp ${gnl_path}/includes/get_next_line.h 	${gnl_path_clone_includes}
 
+#	---------------------------------- FT_FPRINTF ------------------------------------
+	# f_printf variables
+	ft_fprintf_github="git@github.com:isibio/libft.ft_fprintf.git"
+	ft_fprintf_github_branch="master"
+	ft_fprintf_display="ft_fprintf"
+	ft_fprintf_path="./ghub/ft_fprintf"
+	ft_fprintf_path_clone_srcs="./srcs/ft_fprintf"
+	ft_fprintf_path_clone_includes="./includes"
+
+	printf "\n${PROJECT_NAME_DISPLAY} ${WHITE}${BOLD}Clone ${YELLOW}${ft_fprintf_display} ${CLEAN}${WHITE} >> \n\tlink : ${CLEAN}${ORANGE}${ft_fprintf_github}${CLEAN} \n\t${WHITE}dir  : ${CLEAN}${ORANGE}${ft_fprintf_path}${CLEAN} \n\n${CLEAN}${GITHUB_OUTPUTS}"
+
+
+	# remove old clones if exists
+	rm -rf ${ft_fprintf_path}
+	rm -rf ${ft_fprintf_path_clone_srcs}/ft_fprintf*.c
+	rm -rf ${ft_fprintf_path_clone_includes}/ft_fprintf*.h
+	mkdir ${ft_fprintf_path}
+	mkdir ${ft_fprintf_path_clone_srcs}
+	mkdir ${ft_fprintf_path_clone_includes}
+
+	# git clone from ${get_next_line_github} (branch ${get_next_line_github_branch}) to ${get_next_line_path}
+	git clone --branch ${ft_fprintf_github_branch} ${ft_fprintf_github} ${ft_fprintf_path}
+
+	# files to copy (get_next_line*.c)
+	#  from ${get_next_line_path}/srcs/ -> ${get_next_line_path_clone_srcs}
+	cp ${ft_fprintf_path}/srcs/ft_fprintf/ft_fprintf*.c 	${ft_fprintf_path_clone_srcs}
+
+	# files to copy (*.h) 
+	#  from ${get_next_line_path}/includes/ -> ${get_next_line_path_clone_includes}
+	cp ${ft_fprintf_path}/includes/ft_fprintf.h 	${ft_fprintf_path_clone_includes}
+
+# ------------------------------ END OF PROGRAM ------------------------------
+
 # Remove git clone's dir
 	rm -rf ghub
 printf "\n"
