@@ -42,6 +42,7 @@ int main(int argc, char **argv)
 	//printf("C h E c K p O i N t\n");
 	close(map_fd);
 	//free_arr_arr(0, map);
+	system("leaks so_long");
 	return (0);
 }
 

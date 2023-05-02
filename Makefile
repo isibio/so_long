@@ -60,7 +60,7 @@ SRCS = 	$(shell ls -d1 srcs/*/** | grep -F .c) \
 
 GCC = gcc
 
-FLAGS = -Wall -Wextra -Werror -fsanitize=address
+FLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
 HEADER = -I includes/so_long.h
 

@@ -112,24 +112,25 @@ int	parsing_map_exit_reachable(char **map)
 	char	virus;
 
 	errors = 0;
-	virus = 'v';
+	virus = PLAYER;
 	map_virused = malloc(sizeof(char *) * (map_len(map) + 1));
 	map_clone(map_virused, map);
-	map_replace_char(map_virused, PLAYER, virus);
 	while (map_virused != NULL)
 	{
 		printf("map_virused : %p\n", map_virused);
 		printf("map_tmp     : %p\n", map_tmp);
 
-		map_tmp = malloc(sizeof(char *) * (map_len(map) + 1));
+		ft_display_map(map_virused);
 		map_virused = map_virus(map_virused, WALL, virus, virus);
-		if (map_virused)
+		printf("here\n");
+		if (map_virused != NULL)
+		{
+			printf("[parsing_map_exit_reachable] -> clone from:map_virused to:map_tmp\n");
+			map_tmp = malloc(sizeof(char *) * (map_len(map) + 1));
 			map_clone(map_tmp, map_virused);
-		else
-			free_arr_arr(0, map_tmp);
+		}
 	}
-	//ft_display_map(map_tmp);
-	//free_arr_arr(map_tmp);
+	ft_display_map(map_tmp);
 	if (map_count_char(map_tmp, EXIT))
 	{
 		errors++;
@@ -140,7 +141,6 @@ int	parsing_map_exit_reachable(char **map)
 		errors++;
 		ft_putstr_fd("[parsing_map_exit_reachable] : Error, not all COLLECTIBLE are reachable\n", 2);
 	}
-	//system("leaks so_long");
 	return (errors);
 }
 
@@ -155,9 +155,10 @@ void	map_replace_char(char **map, char to_replace, char replace)
 		j = 0;
 		while (map[i][j])
 		{
-			printf("map[%d][%d] %c\n", i, j, map[i][j]);
+			printf("Check   map[%d][%d] %c | %c \tsame:%d\n", i, j, map[i][j], to_replace, map[i][i] == to_replace);
 			if (map[i][i] == to_replace)
 				map[i][j] = replace;
+			printf("--end\n\n");
 			j++;
 		}
 		i++;
@@ -244,6 +245,11 @@ int	get_coordinates(char orientation, char **map, char c, int min_len)
 	return (-1);
 }
 
+/*
+	* map_virus : return a virused map
+	* 
+	* 
+*/
 char	**map_virus(char **map, char to_keep, char to_replace, char virus)
 {
 	char	**map_virused;
@@ -265,6 +271,7 @@ char	**map_virus(char **map, char to_keep, char to_replace, char virus)
 			break ;
 		min_len++;
 	}
+	printf("[map_virus] return a complete map\n");
 	return (map_virused);
 }
 
@@ -281,11 +288,6 @@ int	map_clone(char **dest, char **src)
 		i++;
 	}
 	dest[i] = NULL;
-	//printf("dest = %p\n", dest);
-	printf("src  = %p\n", src);
-	//ft_display_map(src);
-	//free(src);
-	//system("leaks so_long");
 	return (1);
 }
 
