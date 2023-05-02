@@ -43,19 +43,24 @@ int		parsing_map_square(char **map);
 int		parsing_map_composition(char **map);
 int		parsing_map_exit_reachable(char **map);
 
+void	error_message_map(int error_id, int fd);
+void	map_replace_char(char **map, char to_replace, char replace);
 int		map_len(char **map);
 int		map_surface(char **map);
 int		map_clone(char **dest, char **src);
 int		map_count_char(char **str, char c);
 int		map_search_around(char **map,int x, int y, char to_find);
-void	map_replace_char(char **map, char to_replace, char replace);
 int		get_coordinates(char orientation, char **map, char c, int min_len);
 char	**map_virus(char **map, char to_keep, char to_replace, char virus);
 char 	**map_virus_draw_around(char **map, int x, int y, char to_keep, char virus);
 
+int		parsing_nb_arguments(int argc);
+int		parsing_map_extension(char *map_path);
+int		parsing_arguments_map(char *map_path);
+int		parsing_arguments(int argc, char **argv);
+void	error_message_args(int error_id, int fd);
 /* ===| Utils |=== */
 void	ft_display_map(char **map);
 int		check_only_char(char *str, char c);
-void	error_message(int error_id, int fd);
 void	free_arr_arr(int free_end, char **str);
 #endif

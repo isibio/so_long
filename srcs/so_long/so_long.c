@@ -21,7 +21,7 @@ void	ft_display_map(char **map)
 	i = 0;
 	while (map[i])
 	{
-		printf("%s\n", map[i]);
+		ft_printf("%s\n", map[i]);
 		i++;
 	}
 }
@@ -31,18 +31,15 @@ int main(int argc, char **argv)
 	int map_fd;
 	char **map;
 	
-	(void) argc;
+	if (parsing_arguments(argc, argv))
+		return(ft_putstr_fd("[main] Error arguments\n", 2), 1);
 	map_fd = open(argv[1], O_RDONLY);
 	map = map_extraction(map_fd); // <---- This line create leaks
-	printf("map = %p\n", map);
-	//ft_display_map(map);
-	printf("C h E c K p O i N t\n");
 	if (parsing_map(map))
 		printf("[main] Error\n");
-	//printf("C h E c K p O i N t\n");
 	close(map_fd);
-	//free_arr_arr(0, map);
-	system("leaks so_long");
+	free_arr_arr(1, map);
+	//system("leaks so_long");
 	return (0);
 }
 
@@ -67,10 +64,9 @@ char	**map_extraction(int map_fd)
 	}
 	free(tmp);
 	to_return = malloc(sizeof(char *) * nb_char(map, '\n') + 2);
-	to_return = ft_split(map, '\n');		// <---- Here
+	to_return = ft_split(map, '\n');
 	to_return[nb_char(map, '\n') + 1] = NULL;
-	//ft_display_map(to_return);
-	//free(map);
+	free(map);
 	return (to_return);
 }
 

@@ -15,30 +15,30 @@
 int	parsing_map(char **map)
 {
 	if (parsing_map_empty(map))
-		return (error_message(10, 2), 1);
+		return (error_message_map(10, 2), 1);
 	if (parsing_map_square(map))
-		return (error_message(11, 2), 1);
+		return (error_message_map(11, 2), 1);
 	if (parsing_map_walls(map))
-		return (error_message(12, 2), 1);
+		return (error_message_map(12, 2), 1);
 	if (parsing_map_composition(map))
-		return (error_message(13, 2), 1);
+		return (error_message_map(13, 2), 1);
 	if (parsing_map_exit_reachable(map))
-		return (error_message(14, 2), 1);
+		return (error_message_map(14, 2), 1);
 	return (0);
 }
 
-void	error_message(int error_id, int fd)
+void	error_message_map(int error_id, int fd)
 {
 	if (error_id == 10)
-		ft_putstr_fd("[error_message] : Error, map is empty\n", fd);
+		ft_putstr_fd("[error_message_map] : Error, map is empty\n", fd);
 	if (error_id == 11)
-		ft_putstr_fd("[error_message] : Error, map is not a SQUARE\n", fd);
+		ft_putstr_fd("[error_message_map] : Error, map is not a SQUARE\n", fd);
 	if (error_id == 12)
-		ft_putstr_fd("[error_message] : Error, map border is incorrect\n", fd);
+		ft_putstr_fd("[error_message_map] : Error, map border is incorrect\n", fd);
 	if (error_id == 13)
-		ft_putstr_fd("[error_message] : Error, map composition is incorrect\n", fd);
+		ft_putstr_fd("[error_message_map] : Error, map composition is incorrect\n", fd);
 	if (error_id == 14)
-		ft_putstr_fd("[error_message] : Error, position of EXIT or COLLECTIBLE is incorrect\n", fd);
+		ft_putstr_fd("[error_message_map] : Error, position of EXIT or COLLECTIBLE is incorrect\n", fd);
 }
 
 int	parsing_map_empty(char **map)
@@ -114,23 +114,17 @@ int	parsing_map_exit_reachable(char **map)
 	errors = 0;
 	virus = PLAYER;
 	map_virused = malloc(sizeof(char *) * (map_len(map) + 1));
+	map_tmp = malloc(sizeof(char *) * (map_len(map) + 1));
 	map_clone(map_virused, map);
 	while (map_virused != NULL)
 	{
-		printf("map_virused : %p\n", map_virused);
-		printf("map_tmp     : %p\n", map_tmp);
-
-		ft_display_map(map_virused);
 		map_virused = map_virus(map_virused, WALL, virus, virus);
-		printf("here\n");
 		if (map_virused != NULL)
 		{
-			printf("[parsing_map_exit_reachable] -> clone from:map_virused to:map_tmp\n");
-			map_tmp = malloc(sizeof(char *) * (map_len(map) + 1));
+			free_arr_arr(0, map_tmp);
 			map_clone(map_tmp, map_virused);
 		}
 	}
-	ft_display_map(map_tmp);
 	if (map_count_char(map_tmp, EXIT))
 	{
 		errors++;
@@ -141,7 +135,35 @@ int	parsing_map_exit_reachable(char **map)
 		errors++;
 		ft_putstr_fd("[parsing_map_exit_reachable] : Error, not all COLLECTIBLE are reachable\n", 2);
 	}
+	free_arr_arr(1, map_tmp);
 	return (errors);
+}
+
+/*
+	* map_virus : return a virused map
+*/
+char	**map_virus(char **map, char to_keep, char to_replace, char virus)
+{
+	char	**map_virused;
+	int		x;
+	int		y;
+	int		min_len;
+
+	map_virused = malloc(sizeof(char *) * (map_len(map) + 1));
+	map_clone(map_virused, map);
+	min_len = 0;
+	while (1)
+	{
+		x = get_coordinates('x', map, to_replace, min_len);
+		y = get_coordinates('y', map, to_replace, min_len);
+		if (min_len == map_surface(map) || x < 0 || y < 0)
+			return (free_arr_arr(1, map), free_arr_arr(1, map_virused), NULL);
+		map_virused = map_virus_draw_around(map_virused, x, y, WALL, virus);
+		if (map_search_around(map, x, y, virus) + map_search_around(map, x, y, to_keep) != 4)
+			break ;
+		min_len++;
+	}
+	return (free_arr_arr(1, map), map_virused);
 }
 
 void	map_replace_char(char **map, char to_replace, char replace)
@@ -155,10 +177,8 @@ void	map_replace_char(char **map, char to_replace, char replace)
 		j = 0;
 		while (map[i][j])
 		{
-			printf("Check   map[%d][%d] %c | %c \tsame:%d\n", i, j, map[i][j], to_replace, map[i][i] == to_replace);
 			if (map[i][i] == to_replace)
 				map[i][j] = replace;
-			printf("--end\n\n");
 			j++;
 		}
 		i++;
@@ -245,43 +265,13 @@ int	get_coordinates(char orientation, char **map, char c, int min_len)
 	return (-1);
 }
 
-/*
-	* map_virus : return a virused map
-	* 
-	* 
-*/
-char	**map_virus(char **map, char to_keep, char to_replace, char virus)
-{
-	char	**map_virused;
-	int		x;
-	int		y;
-	int		min_len;
-
-	map_virused = malloc(sizeof(char *) * (map_len(map) + 1));
-	map_clone(map_virused, map);
-	min_len = 0;
-	while (1)
-	{
-		x = get_coordinates('x', map, to_replace, min_len);
-		y = get_coordinates('y', map, to_replace, min_len);
-		if (min_len == map_surface(map) || x < 0 || y < 0)
-			return (free_arr_arr(1, map), NULL);
-		map_virused = map_virus_draw_around(map_virused, x, y, WALL, virus);
-		if (map_search_around(map, x, y, virus) + map_search_around(map, x, y, to_keep) != 4)
-			break ;
-		min_len++;
-	}
-	printf("[map_virus] return a complete map\n");
-	return (map_virused);
-}
-
 // clone a char ** from src to dest
 int	map_clone(char **dest, char **src)
 {
 	int	i;
 
 	i = 0;
-	while (src[i + 0])
+	while (src[i])
 	{
 		dest[i] = malloc(sizeof(char) * ft_strlen(src[i]) + 1);
 		ft_strlcpy(dest[i], src[i], ft_strlen(src[i]) + 1);
