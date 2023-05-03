@@ -26,23 +26,9 @@ void	*graphic_new_window(void *mlx_ptr, char **map)
 
 void	graphic_put_textures(t_textures texture, char **map, void *mlx_ptr, void *win_ptr)
 {
-	(void) texture;
-	(void) map;
-	(void) mlx_ptr;
-	(void) win_ptr;
-	void	*wall_ptr;
-	void	*collectible_ptr;
-	void	*exit_ptr;
-	void	*ground_ptr;
-	int		width;
-	int		height;
 	int		i;
 	int		j;
 
-	wall_ptr		= mlx_xpm_file_to_image(mlx_ptr, texture.wall, &width, &height);
-	collectible_ptr	= mlx_xpm_file_to_image(mlx_ptr, texture.collectible, &width, &height);
-	exit_ptr		= mlx_xpm_file_to_image(mlx_ptr, texture.exit, &width, &height);
-	ground_ptr		= mlx_xpm_file_to_image(mlx_ptr, texture.ground, &width, &height);
 
 	i = 0;
 	while (map[i])
@@ -51,29 +37,46 @@ void	graphic_put_textures(t_textures texture, char **map, void *mlx_ptr, void *w
 		while (map[i][j])
 		{
 			if (map[i][j] == WALL)
-				mlx_put_image_to_window(mlx_ptr, win_ptr, wall_ptr, j * 64, i * 64);
+				mlx_put_image_to_window(mlx_ptr, win_ptr, texture.wall_xpm, j * 64, i * 64);
 			if (map[i][j] == COLLECTIBLE)
-				mlx_put_image_to_window(mlx_ptr, win_ptr, collectible_ptr, j * 64, i * 64);
+				mlx_put_image_to_window(mlx_ptr, win_ptr, texture.collectible_xpm, j * 64, i * 64);
 			if (map[i][j] == EXIT)
-				mlx_put_image_to_window(mlx_ptr, win_ptr, exit_ptr, j * 64, i * 64);
+				mlx_put_image_to_window(mlx_ptr, win_ptr, texture.exit_xpm, j * 64, i * 64);
 			if (map[i][j] == GROUND)
-				mlx_put_image_to_window(mlx_ptr, win_ptr, ground_ptr, j * 64, i * 64);
+				mlx_put_image_to_window(mlx_ptr, win_ptr, texture.ground_xpm, j * 64, i * 64);
+			if (map[i][j] == PLAYER)
+				mlx_put_image_to_window(mlx_ptr, win_ptr, texture.player_xpm, j * 64, i * 64);
 			j++;
 		}
 		i++;
 	}
-	//mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
-	//mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 64, 64);
 }
 
-t_textures	graphic_init_textures()
+t_textures	graphic_init_textures(void *mlx_ptr)
 {
+	int		width;
+	int		height;
+	void	*wall_ptr;
+	void	*collectible_ptr;
+	void	*exit_ptr;
+	void	*ground_ptr;
+	void	*player_ptr;
+
 	t_textures texture;
 	texture.wall = "./textures/wall_unicolor.xpm";
-	texture.player = "./textures/player_unicolor.xpm";
+	wall_ptr = mlx_xpm_file_to_image(mlx_ptr, texture.wall, &width, &height);
+	texture.wall_xpm = wall_ptr;
 	texture.collectible = "./textures/collectible_unicolor.xpm";
+	collectible_ptr	= mlx_xpm_file_to_image(mlx_ptr, texture.collectible, &width, &height);
+	texture.collectible_xpm = collectible_ptr;
 	texture.ground = "./textures/grass_unicolor.xpm";
+	ground_ptr = mlx_xpm_file_to_image(mlx_ptr, texture.ground, &width, &height);
+	texture.ground_xpm = ground_ptr;
 	texture.exit = "./textures/exit_unicolor.xpm";
-
+	exit_ptr = mlx_xpm_file_to_image(mlx_ptr, texture.exit, &width, &height);
+	texture.exit_xpm = exit_ptr;
+	texture.player = "./textures/player_unicolor.xpm";
+	player_ptr = mlx_xpm_file_to_image(mlx_ptr, texture.player, &width, &height);
+	texture.player_xpm = player_ptr;
 	return (texture);
 }

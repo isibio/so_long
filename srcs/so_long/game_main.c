@@ -26,11 +26,17 @@ int	game_main(char **map)
 // renvoie >0 si il y a un prblm
 int	game_init(void *mlx_ptr, char **map)
 {
-	t_textures texture;
-	texture = graphic_init_textures();
+	t_data	data;
+	data = data_init(mlx_ptr, map);
 	void	*win_ptr;
 	win_ptr = graphic_new_window(mlx_ptr, map);
-	graphic_put_textures(texture, map, mlx_ptr, win_ptr);
-	mlx_loop(mlx_ptr);
+	graphic_put_textures(data.texture, map, mlx_ptr, win_ptr);
+	game_loop(mlx_ptr, win_ptr, &data);
 	return (0);
+}
+
+void	game_loop(void *mlx_ptr, void *win_ptr,  t_data *data)
+{
+	mlx_key_hook(win_ptr, control_key_management, data);
+	mlx_loop(mlx_ptr);
 }

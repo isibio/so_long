@@ -33,6 +33,7 @@
 //
 //}t_settings;
 
+
 typedef struct s_textures
 {
 	char	*wall;
@@ -40,8 +41,18 @@ typedef struct s_textures
 	char	*collectible;
 	char	*ground;
 	char	*exit;
-
+	void	*wall_xpm;
+	void	*player_xpm;
+	void	*collectible_xpm;
+	void	*ground_xpm;
+	void	*exit_xpm;
 }t_textures;
+
+typedef struct s_data
+{
+	t_textures	texture;
+	char		**map;
+}t_data;
 
 char	**map_extraction(int map_fd);
 char	*free_and_join(char *s1, char *s2);
@@ -72,8 +83,15 @@ int		parsing_arguments(int argc, char **argv);
 void	error_message_args(int error_id, int fd);
 
 /* ===| Game |=== */
-int		game_main(char **map);
-int		game_init(void *mlx, char **map);
+int			game_main(char **map);
+int			game_init(void *mlx, char **map);
+t_data		data_init(void *mlx_ptr, char **map);
+void		game_loop(void *mlx_ptr, void *win_ptr, t_data *data);
+
+/* ===| Control |=== */
+int		control_key_management(int key, t_data *data);
+void	control_key_move(int key, t_data *data);
+int		move_object(char **map, char character, char *direction, char collision);
 
 /* ===| Graphic |=== */
 void		*graphic_new_window(void *mlx_ptr, char **map);
