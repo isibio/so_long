@@ -26,8 +26,11 @@ int	game_main(char **map)
 // renvoie >0 si il y a un prblm
 int	game_init(void *mlx_ptr, char **map)
 {
+	t_textures texture;
+	texture = graphic_init_textures();
 	void	*win_ptr;
 	win_ptr = graphic_new_window(mlx_ptr, map);
+	graphic_put_textures(texture, map, mlx_ptr, win_ptr);
 	mlx_loop(mlx_ptr);
 	return (0);
 }

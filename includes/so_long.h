@@ -33,6 +33,16 @@
 //
 //}t_settings;
 
+typedef struct s_textures
+{
+	char	*wall;
+	char	*player;
+	char	*collectible;
+	char	*ground;
+	char	*exit;
+
+}t_textures;
+
 char	**map_extraction(int map_fd);
 char	*free_and_join(char *s1, char *s2);
 
@@ -66,7 +76,9 @@ int		game_main(char **map);
 int		game_init(void *mlx, char **map);
 
 /* ===| Graphic |=== */
-void	*graphic_new_window(void *mlx_ptr, char **map);
+void		*graphic_new_window(void *mlx_ptr, char **map);
+void		graphic_put_textures(t_textures texture, char **map, void *mlx_ptr, void *win_ptr);
+t_textures	graphic_init_textures();
 
 /* ===| Utils |=== */
 void	ft_display_map(char **map);
