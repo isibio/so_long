@@ -18,11 +18,12 @@
 # define PLAYER			'P'
 # define COLLECTIBLE	'C'
 # define EXIT			'E'
+# define TEXTURE_RESOLUTION	64
 
-#include <unistd.h>
-#include <stdio.h>
-#include <mlx.h>
-#include "../lib/libft/includes/libft.h"
+# include <unistd.h>
+# include <stdio.h>
+# include <mlx.h>
+# include "../lib/libft/includes/libft.h"
 
 //typedef struct s_settings
 //{
@@ -59,6 +60,14 @@ int		parsing_map_extension(char *map_path);
 int		parsing_arguments_map(char *map_path);
 int		parsing_arguments(int argc, char **argv);
 void	error_message_args(int error_id, int fd);
+
+/* ===| Game |=== */
+int		game_main(char **map);
+int		game_init(void *mlx, char **map);
+
+/* ===| Graphic |=== */
+void	*graphic_new_window(void *mlx_ptr, char **map);
+
 /* ===| Utils |=== */
 void	ft_display_map(char **map);
 int		check_only_char(char *str, char c);

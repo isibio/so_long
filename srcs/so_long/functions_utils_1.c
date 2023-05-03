@@ -41,3 +41,17 @@ int	check_only_char(char *str, char c)
 	}
 	return (0);
 }
+
+void	free_arr_arr(int free_end, char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	if (free_end && str)
+		free(str);
+}

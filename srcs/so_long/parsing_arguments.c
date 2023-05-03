@@ -18,7 +18,8 @@ int	parsing_arguments(int argc, char **argv)
 
 	(void) argv;
 	errors = 0;
-	errors += parsing_nb_arguments(argc);
+	if (parsing_nb_arguments(argc))
+		return (1);
 	errors += parsing_map_extension(argv[1]);
 	errors += parsing_arguments_map(argv[1]);
 	return(errors);

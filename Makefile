@@ -74,12 +74,12 @@ all : ${LIBFT_A} ${NAME}
 
 .c.o : 
 	@printf "$(PROJECT_NAME_DISPLAY_UNDONE) $(CLEAN)${WHITE}Compiling >> %s ${CLEAN}" ${notdir $<}
-	@${GCC} ${FLAGS} ${HEADER} -c $< -o ${<:.c=.o}
+	@${GCC} ${FLAGS} ${HEADER} -Imlx -c $< -o ${<:.c=.o}
 	@printf "$(CLEAR)$(PROJECT_NAME_DISPLAY_DONE) ${WHITE}Compiling >> ${BOLD}${GREEN}%s  ✓ \n${CLEAN}" ${notdir $<}
 
 ${NAME}: ${OBJS}
 	@printf "$(PROJECT_NAME_DISPLAY_UNDONE) $(CLEAN)${WHITE}Compiling >> %s ${CLEAN}" ${notdir $<}
-	@${GCC} ${FLAGS} ${HEADER} ${OBJS} -o ${NAME}
+	@${GCC} ${FLAGS} ${HEADER} ${OBJS} -lmlx -framework OpenGL -framework AppKit -o ${NAME}
 	@printf "$(CLEAR)$(PROJECT_NAME_DISPLAY_DONE) ${WHITE}Compiling >> ${BOLD}${GREEN}%s  ✓ \n${CLEAN}" ${notdir $<}
 
 ${LIBFT_A} :
