@@ -15,12 +15,13 @@
 void	*graphic_new_window(void *mlx_ptr, char **map)
 {
 	void	*win_ptr;
-	int	size_x;
-	int	size_y;
+	int		size_x;
+	int		size_y;
 
 	size_x = TEXTURE_RESOLUTION * ft_strlen(map[0]);
 	size_y = TEXTURE_RESOLUTION * map_len(map);
 	win_ptr = mlx_new_window(mlx_ptr, size_x, size_y, "### placeholder title defined in graphic_new_window()### ");
+	printf("caca\n");
 	return (win_ptr);
 }
 
@@ -28,7 +29,6 @@ void	graphic_put_textures(t_textures texture, char **map, void *mlx_ptr, void *w
 {
 	int		i;
 	int		j;
-
 
 	i = 0;
 	while (map[i])
@@ -75,7 +75,7 @@ t_textures	graphic_init_textures(void *mlx_ptr)
 	texture.exit = "./textures/exit_unicolor.xpm";
 	exit_ptr = mlx_xpm_file_to_image(mlx_ptr, texture.exit, &width, &height);
 	texture.exit_xpm = exit_ptr;
-	texture.player = "./textures/player_unicolor.xpm";
+	texture.player = "./textures/player_sus.xpm";
 	player_ptr = mlx_xpm_file_to_image(mlx_ptr, texture.player, &width, &height);
 	texture.player_xpm = player_ptr;
 	return (texture);

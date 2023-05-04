@@ -29,8 +29,8 @@ void	ft_display_map(char **map)
 
 int main(int argc, char **argv)
 {
-	int map_fd;
-	char **map;
+	int		map_fd;
+	char	**map;
 	
 	// Partie parsing :
 	if (parsing_arguments(argc, argv))
@@ -43,7 +43,6 @@ int main(int argc, char **argv)
 		return(ft_putstr_fd("[main] Error map\n", 2), free_arr_arr(1, map), 1);
 
 	// Partie graphique :
-
 	game_main(map);
 
 	close(map_fd);

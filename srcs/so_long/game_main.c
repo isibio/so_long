@@ -14,29 +14,35 @@
 
 int	game_main(char **map)
 {
-	void	*mlx_ptr;
+	t_data		data;
+	void		*mlx_ptr;
 
 	mlx_ptr = mlx_init();
-	game_init(mlx_ptr, map);
+	data = game_init(mlx_ptr, map);
+	game_loop(data);
 	return(0);
 }
 
 // Cette fonction initialise toutes les données avant de rentrer
 // Dans la game_loop
 // renvoie >0 si il y a un prblm
-int	game_init(void *mlx_ptr, char **map)
+t_data	game_init(void *mlx_ptr, char **map)
 {
-	t_data	data;
+	t_data		data;
+
 	data = data_init(mlx_ptr, map);
-	void	*win_ptr;
-	win_ptr = graphic_new_window(mlx_ptr, map);
-	graphic_put_textures(data.texture, map, mlx_ptr, win_ptr);
-	game_loop(mlx_ptr, win_ptr, &data);
-	return (0);
+	data.mlx_ptr = mlx_ptr;
+	printf("game_init : data_mlx_ptr = %lld\n", (long long int)data.mlx_ptr);
+	printf("game_init :      mlx_ptr = %lld\n", (long long int)mlx_ptr);
+	data.win_ptr = graphic_new_window(mlx_ptr, data.map);
+	printf("GOT IT\n");
+	graphic_put_textures(data.texture, data.map, data.mlx_ptr, data.win_ptr);
+	return (data);
 }
 
-void	game_loop(void *mlx_ptr, void *win_ptr,  t_data *data)
+void	game_loop(t_data data)
 {
-	mlx_key_hook(win_ptr, control_key_management, data);
-	mlx_loop(mlx_ptr);
+	printf("game_loop : mlx_ptr = %lld\n", (long long int)data.mlx_ptr);
+	mlx_key_hook(data.win_ptr, control_key_management, &data);
+	mlx_loop(data.mlx_ptr);
 }

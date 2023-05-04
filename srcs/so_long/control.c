@@ -14,47 +14,55 @@
 
 int	control_key_management(int key, t_data *data)
 {
-	printf("input key : %d\n", key);
 	control_key_move(key, data);
+	graphic_put_textures(data->texture, data->map, data->mlx_ptr, data->win_ptr);
+	ft_printf("movements : %d\n", data->player.movements);
+	//data->player.movements++;
 	return (0);
 }
 
 void	control_key_move(int key, t_data *data)
 {
 	if (key == 126)
-		move_object(data->map, PLAYER, "up", WALL);
+		move_object(data, PLAYER, "up", WALL);
 	if (key == 124)
-		move_object(data->map, PLAYER, "right", WALL);
+		move_object(data, PLAYER, "right", WALL);
 	if (key == 125)
-		move_object(data->map, PLAYER, "down", WALL);
+		move_object(data, PLAYER, "down", WALL);
 	if (key == 123)
-		move_object(data->map, PLAYER, "left", WALL);
+		move_object(data, PLAYER, "left", WALL);
 }
 
 //*****************************************************************************************************************************************
-// * Déplace de (1 * TEXTURE_RESOLUTION) un char donné et remplace l'ancienne pos de character par un GROUND
+// * Déplace de 1 un char donné et remplace l'ancienne pos de character par un GROUND
 //***
 // * character	: le char qui va être remplacé
 // * direction	: "up" "down" "left" "right"
-// * to_replace	: avec quel char remplacer l'ancienne pos de character
 // * collision	: ne pas effectuer le déplacement si un char "collision" se trouve sur la nouvelle pusition théorique de character
 //***
 // * return values :
-// * si le déplacement n'a pas pu être effectuer il renvoie 1
-// * sinon il renvoie 0
+// * return la map avec le character déplacé
+// *
 //***
 // * errors :
-// * si il y a plusieurs character sur la map, le déplacement ne seta pas fait et la fonction retournera 1
+// * si il y a plusieurs character sur la map, le déplacement ne sera pas fait et la fonction retournera 1
 //*****************************************************************************************************************************************
-int move_object(char **map, char character, char *direction, char collision)
+void	move_object(t_data *data, char character, char *direction, char collision)
 {
-	printf("here\n");
-	(void) collision;
-	int	old_pos_character_x;
-	int	old_pos_character_y;
+	int	character_x;
+	int	character_y;
 
-	old_pos_character_x = get_coordinates('x', map, character, 0);
-	old_pos_character_y = get_coordinates('y', map, character, 0);
-	printf("%s\n", direction);
-	return (0);
+	character_x = get_coordinates('x', data->map, character, 0);
+	character_y = get_coordinates('y', data->map, character, 0);
+	if (!ft_strncmp(direction, "up", 2) && data->map[character_y - 1][character_x] != collision)
+		data->map[character_y - 1][character_x] = character;
+	else if (!ft_strncmp(direction, "down", 4) && data->map[character_y + 1][character_x] != collision)
+		data->map[character_y + 1][character_x] = character;
+	else if (!ft_strncmp(direction, "right", 5) && data->map[character_y][character_x + 1] != collision)
+		data->map[character_y][character_x + 1] = character;
+	else if (!ft_strncmp(direction, "left", 4) && data->map[character_y][character_x - 1] != collision)
+		data->map[character_y][character_x - 1] = character;
+	else
+		return ;
+	data->map[character_y][character_x] = GROUND;
 }
