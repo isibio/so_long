@@ -20,12 +20,9 @@ int	game_main(char **map)
 	mlx_ptr = mlx_init();
 	data = game_init(mlx_ptr, map);
 	game_loop(data);
-	return(0);
+	return (0);
 }
 
-// Cette fonction initialise toutes les données avant de rentrer
-// Dans la game_loop
-// renvoie >0 si il y a un prblm
 t_data	game_init(void *mlx_ptr, char **map)
 {
 	t_data		data;
@@ -43,8 +40,15 @@ void	game_loop(t_data data)
 	mlx_loop(data.mlx_ptr);
 }
 
-void game_end()
+void	game_end(void)
 {
-	system("leaks so_long");
 	exit(0);
+}
+
+void	game_exit(t_data *data, int exit_x, int exit_y)
+{
+	if (data->map[exit_y][exit_x] != PLAYER)
+		data->map[exit_y][exit_x] = EXIT;
+	else if (!map_count_char(data->map, COLLECTIBLE))
+		game_end();
 }

@@ -40,7 +40,8 @@ int	map_len(char **map)
 	return (len);
 }
 
-// This function returns the coordinates (x or y, depending on the desired orientation)
+// This function returns the coordinates
+// 	(x/y, depending on the desired orientation)
 // of the char c in the map (after min_len characters searched)
 int	get_coordinates(char orientation, char **map, char c, int min_len)
 {
@@ -48,9 +49,9 @@ int	get_coordinates(char orientation, char **map, char c, int min_len)
 	int	j;
 	int	searched_char;
 
-	i = 0;
+	i = -1;
 	searched_char = 0;
-	while (map[i])
+	while (map[++i])
 	{
 		j = 0;
 		while (map[i][j])
@@ -67,14 +68,13 @@ int	get_coordinates(char orientation, char **map, char c, int min_len)
 			searched_char++;
 			j++;
 		}
-		i++;
 	}
 	return (-1);
 }
 
 int	map_surface(char **map)
 {
-	int map_surface;
+	int	map_surface;
 	int	i;
 	int	j;
 

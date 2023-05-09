@@ -12,13 +12,13 @@
 
 #include "../../includes/so_long.h"
 
-// map_virus : return a virused map
 char	**map_virus(char **map, char to_keep, char to_replace, char virus)
 {
 	char	**map_virused;
 	int		x;
 	int		y;
 	int		min_len;
+	char	c[2];
 
 	map_virused = malloc(sizeof(char *) * (map_len(map) + 1));
 	map_clone(map_virused, map);
@@ -29,8 +29,11 @@ char	**map_virus(char **map, char to_keep, char to_replace, char virus)
 		y = get_coordinates('y', map, to_replace, min_len);
 		if (min_len == map_surface(map) || x < 0 || y < 0)
 			return (free_arr_arr(1, map), free_arr_arr(1, map_virused), NULL);
-		map_virused = map_virus_draw_around(map_virused, x, y, WALL, virus);
-		if (map_search_around(map, x, y, virus) + map_search_around(map, x, y, to_keep) != 4)
+		c[0] = WALL;
+		c[1] = virus;
+		map_virused = map_virus_draw_around(map_virused, x, y, c);
+		if (map_search_around(map, x, y, virus)
+			+ map_search_around(map, x, y, to_keep) != 4)
 			break ;
 		min_len++;
 	}
@@ -39,8 +42,8 @@ char	**map_virus(char **map, char to_keep, char to_replace, char virus)
 
 void	map_replace_char(char **map, char to_replace, char replace)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (map[i])
@@ -56,25 +59,23 @@ void	map_replace_char(char **map, char to_replace, char replace)
 	}
 }
 
-// Dessine un char (to_replace) autour et sur un point (défini par x et y) dans une map,
-// Ne remplace pas les characteres to_keep
-// retourne la map modifiée
-char **map_virus_draw_around(char **map, int x, int y, char to_keep, char to_replce)
+// to[0] = to_keep
+// to[1] = to_replace
+char	**map_virus_draw_around(char **map, int x, int y, char *to)
 {
-	if (map[y][x] != to_keep)
-		map[y][x] = to_replce;
-	if (map[y - 1][x] != to_keep)
-		map[y - 1][x] = to_replce;
-	if (map[y + 1][x] != to_keep)
-		map[y + 1][x] = to_replce;
-	if (map[y][x - 1] != to_keep)
-		map[y][x - 1] = to_replce;
-	if (map[y][x + 1] != to_keep)
-		map[y][x + 1] = to_replce;
+	if (map[y][x] != to[0])
+		map[y][x] = to[1];
+	if (map[y - 1][x] != to[0])
+		map[y - 1][x] = to[1];
+	if (map[y + 1][x] != to[0])
+		map[y + 1][x] = to[1];
+	if (map[y][x - 1] != to[0])
+		map[y][x - 1] = to[1];
+	if (map[y][x + 1] != to[0])
+		map[y][x + 1] = to[1];
 	return (map);
 }
 
-// clone a char ** from src to dest
 int	map_clone(char **dest, char **src)
 {
 	int	i;

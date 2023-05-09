@@ -15,11 +15,13 @@
 int	control_key_management(int key, t_data *data)
 {
 	int	movements;
+
 	movements = data->player.movements;
 	data = control_key_move(key, data);
-	graphic_put_textures(data->texture, data->map, data->mlx_ptr, data->win_ptr);
+	graphic_put_textures(data->texture, data->map,
+		data->mlx_ptr, data->win_ptr);
 	if (data->player.movements != movements)
-		ft_printf("[control_key_management] movements : %d\n", data->player.movements);
+		ft_printf("movements : %d\n", data->player.movements);
 	return (0);
 }
 
@@ -36,62 +38,30 @@ t_data	*control_key_move(int key, t_data *data)
 	return (data);
 }
 
-//*****************************************************************************************************************************************
-// * Déplace de 1 un char donné et remplace l'ancienne pos de character par un GROUND
-//***
-// * character	: le char qui va être remplacé
-// * direction	: "up" "down" "left" "right"
-// * collision	: ne pas effectuer le déplacement si un char "collision" se trouve sur la nouvelle pusition théorique de character
-//***
-// * return values :
-// * return la map avec le character déplacé
-// *
-//***
-// * errors :
-// * si il y a plusieurs character sur la map, le déplacement ne sera pas fait et la fonction retournera 1
-//*****************************************************************************************************************************************
-t_data	*move_object(t_data *data, char character, char *direction, char collision)
+t_data	*move_object(t_data *data, char c, char *d, char co)
 {
-	int			character_x;
-	int			character_y;
+	int			c_x;
+	int			c_y;
 	static int	exit_x;
 	static int	exit_y;
 
-	character_x = get_coordinates('x', data->map, character, 0);
-	character_y = get_coordinates('y', data->map, character, 0);
+	c_x = get_coordinates('x', data->map, c, 0);
+	c_y = get_coordinates('y', data->map, c, 0);
 	if (get_coordinates('x', data->map, EXIT, 0) >= 0)
 		exit_x = get_coordinates('x', data->map, EXIT, 0);
 	if (get_coordinates('y', data->map, EXIT, 0) >= 0)
 		exit_y = get_coordinates('y', data->map, EXIT, 0);
-	data->player.movements++;
-	if (!ft_strncmp(direction, "up", 2) && data->map[character_y - 1][character_x] != collision)
-		data->map[character_y - 1][character_x] = character;
-	else if (!ft_strncmp(direction, "down", 4) && data->map[character_y + 1][character_x] != collision)
-		data->map[character_y + 1][character_x] = character;
-	else if (!ft_strncmp(direction, "right", 5) && data->map[character_y][character_x + 1] != collision)
-		data->map[character_y][character_x + 1] = character;
-	else if (!ft_strncmp(direction, "left", 4) && data->map[character_y][character_x - 1] != collision)
-		data->map[character_y][character_x - 1] = character;
+	if (!ft_strncmp(d, "up", 2) && data->map[c_y - 1][c_x] != co)
+		data->map[c_y - 1][c_x] = c;
+	else if (!ft_strncmp(d, "down", 4) && data->map[c_y + 1][c_x] != co)
+		data->map[c_y + 1][c_x] = c;
+	else if (!ft_strncmp(d, "right", 5) && data->map[c_y][c_x + 1] != co)
+		data->map[c_y][c_x + 1] = c;
+	else if (!ft_strncmp(d, "left", 4) && data->map[c_y][c_x - 1] != co)
+		data->map[c_y][c_x - 1] = c;
 	else
-		return (data->player.movements--, data);
-	data->map[character_y][character_x] = GROUND;
-	if (data->map[exit_y][exit_x] != PLAYER)
-		data->map[exit_y][exit_x] = EXIT;
-	else if (!map_count_char(data->map, COLLECTIBLE))
-		game_end();
-	return(data);
+		return (data);
+	data->map[c_y][c_x] = GROUND;
+	game_exit(data, exit_x, exit_y);
+	return (data->player.movements++, data);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

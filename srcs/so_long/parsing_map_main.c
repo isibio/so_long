@@ -15,7 +15,7 @@
 int	parsing_map_empty(char **map)
 {
 	if (!map[0])
-		return (error_message_map(10, 1), 1);
+		return (error_message_map(10, "parsing_map_empty", 2, 1));
 	return (0);
 }
 
@@ -55,23 +55,24 @@ int	parsing_map_walls(char **map)
 int	parsing_map_composition(char **map)
 {
 	int	errors;
+	int	nb_elememts;
 
 	errors = 0;
+	nb_elememts = 0;
 	if (map_count_char(map, EXIT) != 1)
-	{
-		errors++;
-		ft_putstr_fd("[parsing_map_composition] : Error, number of EXIT\n", 2);
-	}	
+		errors += parsing_map_err(20, "parsing_map_exit_reachable", 2, 1);
 	if (map_count_char(map, PLAYER) != 1)
-	{
-		errors++;
-		ft_putstr_fd("[parsing_map_composition] : Error, number of PLAYER\n", 2);
-	}	
+		errors += parsing_map_err(21, "parsing_map_exit_reachable", 2, 1);
 	if (map_count_char(map, COLLECTIBLE) == 0)
-	{
-		errors++;
-		ft_putstr_fd("[parsing_map_composition] : Error, number of COLLECTIBLE\n", 2);
-	}	
+		errors += parsing_map_err(22, "parsing_map_exit_reachable", 2, 1);
+	nb_elememts += map_count_char(map, COLLECTIBLE);
+	nb_elememts += map_count_char(map, EXIT);
+	nb_elememts += map_count_char(map, PLAYER);
+	nb_elememts += map_count_char(map, GROUND);
+	nb_elememts += map_count_char(map, WALL);
+	nb_elememts += map_count_char(map, '\n');
+	if (nb_elememts != map_surface(map))
+		errors += parsing_map_err(23, "parsing_map_exit_reachable", 2, 1);
 	return (errors);
 }
 
@@ -98,15 +99,8 @@ int	parsing_map_exit_reachable(char **map)
 		}
 	}
 	if (map_count_char(map_tmp, EXIT))
-	{
-		errors++;
-		ft_putstr_fd("[parsing_map_exit_reachable] : Error, EXIT not reachable\n", 2);
-	}
+		errors += parsing_map_err(10, "parsing_map_exit_reachable", 2, 1);
 	if (map_count_char(map_tmp, COLLECTIBLE))
-	{
-		errors++;
-		ft_putstr_fd("[parsing_map_exit_reachable] : Error, not all COLLECTIBLE are reachable\n", 2);
-	}
-	free_arr_arr(1, map_tmp);
-	return (errors);
+		errors += parsing_map_err(11, "parsing_map_exit_reachable", 2, 1);
+	return (free_arr_arr(1, map_tmp), errors);
 }

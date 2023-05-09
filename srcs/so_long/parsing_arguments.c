@@ -22,12 +22,12 @@ int	parsing_arguments(int argc, char **argv)
 		return (1);
 	errors += parsing_map_extension(argv[1]);
 	errors += parsing_arguments_map(argv[1]);
-	return(errors);
+	return (errors);
 }
 
 int	parsing_arguments_map(char *map_path)
 {
-	int fd = 0;
+	int	fd;
 
 	fd = open(map_path, O_RDONLY);
 	if (fd < 0)
@@ -38,7 +38,6 @@ int	parsing_arguments_map(char *map_path)
 
 int	parsing_map_extension(char *map_path)
 {
-	//printf("ft_strnstr(.ber, map_path, ft_strlen(map_path)) = %s\n", ft_strnstr(".ber", map_path, ft_strlen(map_path)));
 	if (ft_strnstr(map_path, ".ber", ft_strlen(map_path)) == NULL)
 		return (error_message_args(30, 2), 1);
 	return (0);

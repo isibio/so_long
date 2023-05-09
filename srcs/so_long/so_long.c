@@ -26,24 +26,20 @@ void	ft_display_map(char **map)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int		map_fd;
 	char	**map;
-	
-	// Partie parsing :
+
 	if (parsing_arguments(argc, argv))
-		return(ft_putstr_fd("[main] Error arguments\n", 2), 1);
+		return (ft_putstr_fd("[main] Error arguments\n", 2), 1);
 	map_fd = open(argv[1], O_RDONLY);
 	map = map_extraction(map_fd);
 	if (!map)
 		return (error_message_map(10, 1), 1);
 	if (parsing_map(map))
-		return(ft_putstr_fd("[main] Error map\n", 2), free_arr_arr(1, map), 1);
-
-	// Partie graphique :
+		return (ft_putstr_fd("[main] Error map\n", 2), free_arr_arr(1, map), 1);
 	game_main(map);
-
 	free_arr_arr(1, map);
 	close(map_fd);
 	return (0);
@@ -51,7 +47,7 @@ int main(int argc, char **argv)
 
 char	**map_extraction(int map_fd)
 {
-	int 	i;
+	int		i;
 	char	*map;
 	char	*tmp;
 	char	**to_return;
