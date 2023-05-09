@@ -30,7 +30,7 @@ int	parsing_map(char **map)
 int	error_message_map(int error_id, char *p, int fd, int ret)
 {
 	if (error_id == 10)
-		ft_fprintf(fd, "[%s] : Error, map is empty\n", p);
+		ft_fprintf(fd, "[%s] : Error, map is invalid\n", p);
 	if (error_id == 11)
 		ft_fprintf(fd, "[%s] : Error, map is not a SQUARE\n", p);
 	if (error_id == 12)

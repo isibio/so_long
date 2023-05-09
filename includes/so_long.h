@@ -83,7 +83,7 @@ t_data		game_init(void *mlx_ptr, char **map);
 t_data		data_init(void *mlx_ptr, char **map);
 void		game_loop(t_data data);
 void		game_exit(t_data *data, int exit_x, int exit_y);
-void		game_end(void);
+int			game_end(void);
 /* ===| Control |=== */
 int			control_key_management(int key, t_data *data);
 t_data		*control_key_move(int key, t_data *data);

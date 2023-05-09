@@ -37,12 +37,14 @@ t_data	game_init(void *mlx_ptr, char **map)
 void	game_loop(t_data data)
 {
 	mlx_key_hook(data.win_ptr, control_key_management, &data);
+	mlx_hook(data.win_ptr, 17, 1L << 17, game_end, NULL);
 	mlx_loop(data.mlx_ptr);
 }
 
-void	game_end(void)
+int	game_end(void)
 {
 	exit(0);
+	return (0);
 }
 
 void	game_exit(t_data *data, int exit_x, int exit_y)

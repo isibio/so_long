@@ -65,7 +65,7 @@ char	**map_extraction(int map_fd)
 		i++;
 	}
 	free(tmp);
-	if (map == NULL || !map[0])
+	if (map == NULL || !map[0] || ft_strnstr(map, "\n\n", ft_strlen(map)))
 		return (0);
 	to_return = NULL;
 	to_return = ft_split(map, '\n');
