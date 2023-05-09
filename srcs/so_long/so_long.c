@@ -36,7 +36,7 @@ int	main(int argc, char **argv)
 	map_fd = open(argv[1], O_RDONLY);
 	map = map_extraction(map_fd);
 	if (!map)
-		return (error_message_map(10, 1), 1);
+		return (error_message_map(10, "main", 2, 1));
 	if (parsing_map(map))
 		return (ft_putstr_fd("[main] Error map\n", 2), free_arr_arr(1, map), 1);
 	game_main(map);

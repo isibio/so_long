@@ -35,6 +35,8 @@ t_data	*control_key_move(int key, t_data *data)
 		data = move_object(data, PLAYER, "down", WALL);
 	if (key == 123)
 		data = move_object(data, PLAYER, "left", WALL);
+	if (key == 53)
+		game_end();
 	return (data);
 }
 
