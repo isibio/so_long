@@ -14,23 +14,26 @@
 
 int	control_key_management(int key, t_data *data)
 {
-	control_key_move(key, data);
+	int	movements;
+	movements = data->player.movements;
+	data = control_key_move(key, data);
 	graphic_put_textures(data->texture, data->map, data->mlx_ptr, data->win_ptr);
-	ft_printf("movements : %d\n", data->player.movements);
-	//data->player.movements++;
+	if (data->player.movements != movements)
+		ft_printf("[control_key_management] movements : %d\n", data->player.movements);
 	return (0);
 }
 
-void	control_key_move(int key, t_data *data)
+t_data	*control_key_move(int key, t_data *data)
 {
 	if (key == 126)
-		move_object(data, PLAYER, "up", WALL);
+		data = move_object(data, PLAYER, "up", WALL);
 	if (key == 124)
-		move_object(data, PLAYER, "right", WALL);
+		data = move_object(data, PLAYER, "right", WALL);
 	if (key == 125)
-		move_object(data, PLAYER, "down", WALL);
+		data = move_object(data, PLAYER, "down", WALL);
 	if (key == 123)
-		move_object(data, PLAYER, "left", WALL);
+		data = move_object(data, PLAYER, "left", WALL);
+	return (data);
 }
 
 //*****************************************************************************************************************************************
@@ -47,13 +50,20 @@ void	control_key_move(int key, t_data *data)
 // * errors :
 // * si il y a plusieurs character sur la map, le déplacement ne sera pas fait et la fonction retournera 1
 //*****************************************************************************************************************************************
-void	move_object(t_data *data, char character, char *direction, char collision)
+t_data	*move_object(t_data *data, char character, char *direction, char collision)
 {
-	int	character_x;
-	int	character_y;
+	int			character_x;
+	int			character_y;
+	static int	exit_x;
+	static int	exit_y;
 
 	character_x = get_coordinates('x', data->map, character, 0);
 	character_y = get_coordinates('y', data->map, character, 0);
+	if (get_coordinates('x', data->map, EXIT, 0) >= 0)
+		exit_x = get_coordinates('x', data->map, EXIT, 0);
+	if (get_coordinates('y', data->map, EXIT, 0) >= 0)
+		exit_y = get_coordinates('y', data->map, EXIT, 0);
+	data->player.movements++;
 	if (!ft_strncmp(direction, "up", 2) && data->map[character_y - 1][character_x] != collision)
 		data->map[character_y - 1][character_x] = character;
 	else if (!ft_strncmp(direction, "down", 4) && data->map[character_y + 1][character_x] != collision)
@@ -63,6 +73,25 @@ void	move_object(t_data *data, char character, char *direction, char collision)
 	else if (!ft_strncmp(direction, "left", 4) && data->map[character_y][character_x - 1] != collision)
 		data->map[character_y][character_x - 1] = character;
 	else
-		return ;
+		return (data->player.movements--, data);
 	data->map[character_y][character_x] = GROUND;
+	if (data->map[exit_y][exit_x] != PLAYER)
+		data->map[exit_y][exit_x] = EXIT;
+	else if (!map_count_char(data->map, COLLECTIBLE))
+		game_end();
+	return(data);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

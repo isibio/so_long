@@ -16,7 +16,6 @@ int	nb_char(char *str, char c);
 
 void	ft_display_map(char **map)
 {
-	printf("in function ft_display_map\n");
 	int	i;
 
 	i = 0;
@@ -45,8 +44,8 @@ int main(int argc, char **argv)
 	// Partie graphique :
 	game_main(map);
 
+	free_arr_arr(1, map);
 	close(map_fd);
-	system("leaks so_long");
 	return (0);
 }
 
@@ -71,11 +70,8 @@ char	**map_extraction(int map_fd)
 	}
 	free(tmp);
 	if (map == NULL || !map[0])
-	{
-		printf("map is NULL -> return()\n");
 		return (0);
-	}
-	to_return = malloc(sizeof(char *) * (nb_char(map, '\n') + 2));
+	to_return = NULL;
 	to_return = ft_split(map, '\n');
 	to_return[nb_char(map, '\n') + 1] = NULL;
 	free(map);

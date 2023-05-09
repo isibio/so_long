@@ -21,7 +21,6 @@ void	*graphic_new_window(void *mlx_ptr, char **map)
 	size_x = TEXTURE_RESOLUTION * ft_strlen(map[0]);
 	size_y = TEXTURE_RESOLUTION * map_len(map);
 	win_ptr = mlx_new_window(mlx_ptr, size_x, size_y, "### placeholder title defined in graphic_new_window()### ");
-	printf("caca\n");
 	return (win_ptr);
 }
 

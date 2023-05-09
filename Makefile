@@ -55,7 +55,17 @@
 	PROJECT_NAME_DISPLAY_UNDONE	=${CLEAN}${WHITE}[${BOLD}${GRAY}${TOTAL_PERCENT_ECHO} files${CLEAN}${WHITE}]${CLEAN}
 	PROJECT_NAME_DISPLAY_DONE	=${CLEAN}${WHITE}[${ORANGE}${PROJECT_NAME}${WHITE}]${CLEAN}
 
-SRCS = 	$(shell ls -d1 srcs/*/** | grep -F .c) \
+SRCS = 	srcs/so_long/control.c \
+		srcs/so_long/data_init.c \
+		srcs/so_long/functions_utils_1.c \
+		srcs/so_long/game_main.c  \
+		srcs/so_long/graphic_new_window.c \
+		srcs/so_long/parsing_arguments.c \
+		srcs/so_long/parsing_map.c \
+		srcs/so_long/parsing_map_main.c \
+		srcs/so_long/parsing_map_manipulation.c \
+		srcs/so_long/parsing_map_operators.c \
+		srcs/so_long/so_long.c \
 		${LIBFT_A}
 
 GCC = gcc

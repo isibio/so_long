@@ -32,17 +32,19 @@ t_data	game_init(void *mlx_ptr, char **map)
 
 	data = data_init(mlx_ptr, map);
 	data.mlx_ptr = mlx_ptr;
-	printf("game_init : data_mlx_ptr = %lld\n", (long long int)data.mlx_ptr);
-	printf("game_init :      mlx_ptr = %lld\n", (long long int)mlx_ptr);
 	data.win_ptr = graphic_new_window(mlx_ptr, data.map);
-	printf("GOT IT\n");
 	graphic_put_textures(data.texture, data.map, data.mlx_ptr, data.win_ptr);
 	return (data);
 }
 
 void	game_loop(t_data data)
 {
-	printf("game_loop : mlx_ptr = %lld\n", (long long int)data.mlx_ptr);
 	mlx_key_hook(data.win_ptr, control_key_management, &data);
 	mlx_loop(data.mlx_ptr);
+}
+
+void game_end()
+{
+	system("leaks so_long");
+	exit(0);
 }

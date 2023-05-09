@@ -21,14 +21,6 @@
 # include <stdio.h>
 # include <mlx.h>
 # include "../lib/libft/includes/libft.h"
-//typedef struct s_settings
-//{
-//	char	wall;
-//	char	player;
-//	char	wall;
-//
-//}t_settings;
-
 
 typedef struct s_textures
 {
@@ -61,7 +53,6 @@ typedef struct s_data
 
 char	**map_extraction(int map_fd);
 char	*free_and_join(char *s1, char *s2);
-
 /* ===| Parsing |=== */
 int		parsing_map(char **map);
 int		parsing_map_empty(char **map);
@@ -75,27 +66,25 @@ int		map_len(char **map);
 int		map_surface(char **map);
 int		map_clone(char **dest, char **src);
 int		map_count_char(char **str, char c);
-int		map_search_around(char **map,int x, int y, char to_find);
+int		map_search_around(char **map, int x, int y, char to_find);
 int		get_coordinates(char orientation, char **map, char c, int min_len);
 char	**map_virus(char **map, char to_keep, char to_replace, char virus);
-char 	**map_virus_draw_around(char **map, int x, int y, char to_keep, char virus);
+char	**map_virus_draw_around(char **map, int x, int y, char to_keep, char virus);
 int		parsing_nb_arguments(int argc);
 int		parsing_map_extension(char *map_path);
 int		parsing_arguments_map(char *map_path);
 int		parsing_arguments(int argc, char **argv);
 void	error_message_args(int error_id, int fd);
-
 /* ===| Game |=== */
 int		game_main(char **map);
 t_data	game_init(void *mlx_ptr, char **map);
 t_data	data_init(void *mlx_ptr, char **map);
 void	game_loop(t_data data);
-
+void	game_end();
 /* ===| Control |=== */
 int		control_key_management(int key, t_data *data);
-void	control_key_move(int key, t_data *data);
-void	move_object(t_data *data, char character, char *direction, char collision);
-
+t_data	*control_key_move(int key, t_data *data);
+t_data	*move_object(t_data *data, char character, char *direction, char collision);
 /* ===| Graphic |=== */
 void		*graphic_new_window(void *mlx_ptr, char **map);
 void		graphic_put_textures(t_textures texture, char **map, void *mlx_ptr, void *win_ptr);
