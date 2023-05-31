@@ -97,4 +97,5 @@ t_textures	graphic_init_textures(void *mlx_ptr);
 void		ft_display_map(char **map);
 int			check_only_char(char *str, char c);
 void		free_arr_arr(int free_end, char **str);
+int			error_message_data_init(int error_id, char *p, int fd, int ret);
 #endif

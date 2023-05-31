@@ -61,13 +61,23 @@ t_textures	graphic_init_textures(void *mlx_ptr)
 
 	t.wall = "./textures/wall_unicolor.xpm";
 	t.wall_xpm = mlx_xpm_file_to_image(mlx_ptr, t.wall, &width, &height);
+	if (!t.wall_xpm)
+		exit(error_message_data_init(10, "graphic_init_textures", 2, 1));
 	t.coll = "./textures/collectible_unicolor.xpm";
 	t.coll_xpm = mlx_xpm_file_to_image(mlx_ptr, t.coll, &width, &height);
+	if (!t.coll_xpm)
+		exit(error_message_data_init(10, "graphic_init_textures", 2, 1));
 	t.ground = "./textures/grass_unicolor.xpm";
 	t.ground_xpm = mlx_xpm_file_to_image(mlx_ptr, t.ground, &width, &height);
+	if (!t.ground_xpm)
+		exit(error_message_data_init(10, "graphic_init_textures", 2, 1));
 	t.exit = "./textures/exit_unicolor.xpm";
 	t.exit_xpm = mlx_xpm_file_to_image(mlx_ptr, t.exit, &width, &height);
+	if (!t.exit_xpm)
+		exit(error_message_data_init(10, "graphic_init_textures", 2, 1));
 	t.player = "./textures/player_sus.xpm";
 	t.player_xpm = mlx_xpm_file_to_image(mlx_ptr, t.player, &width, &height);
+	if (!t.player_xpm)
+		exit(error_message_data_init(10, "graphic_init_textures", 2, 1));
 	return (t);
 }

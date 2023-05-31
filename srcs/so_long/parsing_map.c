@@ -39,6 +39,15 @@ int	error_message_map(int error_id, char *p, int fd, int ret)
 		ft_fprintf(fd, "[%s] : Error, map composition is incorrect\n", p);
 	if (error_id == 14)
 		ft_fprintf(fd, "[%s] : Error, backtracking error\n", p);
+	if (error_id == 15)
+		ft_fprintf(fd, "[%s] : Error, map extension\n", p);
+	return (ret);
+}
+
+int	error_message_data_init(int error_id, char *p, int fd, int ret)
+{
+	if (error_id == 10)
+		ft_fprintf(fd, "[%s] : Error, cannot open texture\n", p);
 	return (ret);
 }
 

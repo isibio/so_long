@@ -38,7 +38,7 @@ int	parsing_arguments_map(char *map_path)
 
 int	parsing_map_extension(char *map_path)
 {
-	if (ft_strnstr(map_path, ".ber", ft_strlen(map_path)) == NULL)
+	if (ft_strnstr(map_path, ".ber\0", ft_strlen(map_path)) == NULL)
 		return (error_message_args(30, 2), 1);
 	return (0);
 }

@@ -40,7 +40,7 @@ int	parsing_map_walls(char **map)
 	i = 1;
 	while (map[i])
 	{
-		if (map[i][0] != WALL && map[i][ft_strlen(map[i]) - 1] != WALL)
+		if (map[i][0] != WALL || map[i][ft_strlen(map[i]) - 1] != WALL)
 			return (1);
 		i++;
 	}
